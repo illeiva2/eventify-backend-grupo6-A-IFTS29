@@ -1,0 +1,22 @@
+[
+  {
+    "id": "production_logistics",
+    "name": "Producción y Logística",
+    "description": "Coordinación con proveedores, montaje y verificación técnica"
+  },
+  {
+    "id": "planning_finance",
+    "name": "Planificación y Finanzas",
+    "description": "Control de presupuesto, contratos y cronograma"
+  },
+  {
+    "id": "customer_service",
+    "name": "Atención al Cliente",
+    "description": "Gestión de relaciones con clientes"
+  },
+  {
+    "id": "administration",
+    "name": "Administración",
+    "description": "Gestión administrativa general"
+  }
+]

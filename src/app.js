@@ -6,10 +6,13 @@ import notFound from './middleware/notFound.js';
 import errorHandler from './middleware/errorHandler.js';
 import indexRouter from './routes/index.js';
 import tasksRouter from './routes/tasks.js';
+import tareasRouter from './routes/tareas.js';
 import clientsRouter from './routes/clients.js';
 import productsRouter from './routes/products.js';
 import projectsRouter from './routes/projects.js';
 import departmentsRouter from './routes/departments.js';
+import empleadosRouter from './routes/empleados.js';
+import eventosRouter from './routes/eventos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,10 +34,13 @@ app.use(logger);
 // Routers
 app.use('/', indexRouter);
 app.use('/tasks', tasksRouter);
+app.use('/tareas', tareasRouter);
 app.use('/clients', clientsRouter);
 app.use('/products', productsRouter);
 app.use('/projects', projectsRouter);
 app.use('/departments', departmentsRouter);
+app.use('/empleados', empleadosRouter);
+app.use('/eventos', eventosRouter);
 
 // 404 + error handlers
 app.use(notFound);

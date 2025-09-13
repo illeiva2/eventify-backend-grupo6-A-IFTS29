@@ -1,0 +1,24 @@
+[
+  {
+    "id": "e1",
+    "name": "Conferencia Tech 2024",
+    "location": "Centro de Convenciones Buenos Aires",
+    "date": "2024-12-15",
+    "budget": 150000,
+    "clientId": "1078f845-82c8-47cb-98a6-fd6234d3fb65",
+    "status": "planning",
+    "createdAt": "2024-01-15T00:00:00.000Z",
+    "updatedAt": "2024-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "e2",
+    "name": "Boda Empresarial Corporativa",
+    "location": "Salón de Eventos Premium",
+    "date": "2024-11-30",
+    "budget": 80000,
+    "clientId": "b42012b3-3019-4a80-b1fe-ea151bfe90bc",
+    "status": "in_progress",
+    "createdAt": "2024-01-10T00:00:00.000Z",
+    "updatedAt": "2024-01-10T00:00:00.000Z"
+  }
+]

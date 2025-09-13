@@ -1,0 +1,47 @@
+[
+  {
+    "id": "u1",
+    "name": "Romina Gargano",
+    "email": "romina@eventify.com",
+    "roleId": "planner",
+    "areaId": "planning_finance",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "u2",
+    "name": "Matías Paz",
+    "email": "matias@eventify.com",
+    "roleId": "coordinator",
+    "areaId": "production_logistics",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "u3",
+    "name": "Laura Vivan",
+    "email": "laura@eventify.com",
+    "roleId": "coordinator",
+    "areaId": "production_logistics",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "u4",
+    "name": "Ivan Leiva",
+    "email": "ivan@eventify.com",
+    "roleId": "planner",
+    "areaId": "planning_finance",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "u5",
+    "name": "Ignacio Toledo",
+    "email": "ignacio@eventify.com",
+    "roleId": "admin",
+    "areaId": "administration",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]

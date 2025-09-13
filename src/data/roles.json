@@ -1,0 +1,17 @@
+[
+  {
+    "id": "admin",
+    "name": "Administrador",
+    "description": "Acceso completo al sistema"
+  },
+  {
+    "id": "planner",
+    "name": "Planner",
+    "description": "Planificador de eventos"
+  },
+  {
+    "id": "coordinator",
+    "name": "Coordinador",
+    "description": "Coordinador de producción y logística"
+  }
+]

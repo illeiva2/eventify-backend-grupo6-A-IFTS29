@@ -4,8 +4,12 @@ block content
   h2 Tareas
   p
     a(href="/tasks/new") ➕ Nueva tarea
+
   if currentDept
-    p Mostrando tareas del área: strong= currentDept.name
+    p
+      | Mostrando tareas del área: 
+      strong= currentDept.name
+
   if tasks.length
     table
       thead

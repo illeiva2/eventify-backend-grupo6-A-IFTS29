@@ -1,0 +1,38 @@
+[
+  {
+    "id": "t1",
+    "title": "Cotizar catering",
+    "description": "Pedir 3 presupuestos",
+    "departmentId": "purchasing",
+    "assigneeId": "u4",
+    "status": "pending",
+    "dueDate": "2025-09-30",
+    "projectId": null,
+    "createdAt": "2025-09-10T00:00:00.000Z",
+    "updatedAt": "2025-09-10T00:00:00.000Z"
+  },
+  {
+    "id": "c01ceac1-4d8d-4c4b-8e78-57e483724440",
+    "title": "ewrw",
+    "description": "werw",
+    "departmentId": "production",
+    "assigneeId": "u2",
+    "status": "pending",
+    "dueDate": "2002-02-12",
+    "projectId": null,
+    "createdAt": "2025-09-13T02:47:14.334Z",
+    "updatedAt": "2025-09-13T02:47:14.334Z"
+  },
+  {
+    "id": "854bf959-1878-4209-948b-4897e3300dcf",
+    "title": "dfgh",
+    "description": "erter",
+    "departmentId": "sales",
+    "assigneeId": "u4",
+    "status": "pending",
+    "dueDate": "2002-02-12",
+    "projectId": null,
+    "createdAt": "2025-09-13T02:49:45.749Z",
+    "updatedAt": "2025-09-13T02:49:45.749Z"
+  }
+]

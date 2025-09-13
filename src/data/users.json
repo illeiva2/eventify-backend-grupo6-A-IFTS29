@@ -1,0 +1,32 @@
+[
+  {
+    "id": "u1",
+    "name": "Romina Gargano",
+    "email": "romina@eventify.com",
+    "departmentId": "sales"
+  },
+  {
+    "id": "u2",
+    "name": "Matías Paz",
+    "email": "matias@eventify.com",
+    "departmentId": "production"
+  },
+  {
+    "id": "u3",
+    "name": "Laura Vivan",
+    "email": "laura@eventify.com",
+    "departmentId": "logistics"
+  },
+  {
+    "id": "u4",
+    "name": "Ivan Leiva",
+    "email": "ivan@eventify.com",
+    "departmentId": "purchasing"
+  },
+  {
+    "id": "u5",
+    "name": "Ignacio Toledo",
+    "email": "ignacio@eventify.com",
+    "departmentId": "admin"
+  }
+]

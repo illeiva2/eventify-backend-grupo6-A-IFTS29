@@ -1,0 +1,21 @@
+extends ../layout.pug
+
+block content
+  h2 Proyectos
+  if projects.length
+    table
+      thead
+        tr
+          th Nombre
+          th Cliente
+          th Producto
+          th Estado
+      tbody
+        each p in projects
+          tr
+            td= p.name
+            td= p.clientId
+            td= p.productId
+            td= p.status
+  else
+    p (Sin proyectos)

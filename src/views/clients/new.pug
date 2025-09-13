@@ -1,0 +1,16 @@
+extends ../layout.pug
+
+block content
+  h2 Alta de Cliente
+  form(method="POST", action="/clients")
+    .row
+      .card
+        label Nombre
+        input(type="text", name="name", required)
+      .card
+        label Email
+        input(type="email", name="email", required)
+      .card
+        label Teléfono
+        input(type="text", name="phone")
+    button(type="submit") Guardar y elegir producto →

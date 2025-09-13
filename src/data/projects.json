@@ -1,0 +1,18 @@
+[
+  {
+    "id": "2277b6a7-2aa3-4d89-9ead-29faaf32deb0",
+    "clientId": "113d657d-39a5-4e93-ae4a-22e5ef77e88a",
+    "productId": "prd1",
+    "name": "Proyecto Boda Full-Service",
+    "status": "planned",
+    "createdAt": "2025-09-13T02:44:11.026Z"
+  },
+  {
+    "id": "e0d5740d-5687-41b5-b2c4-a0d006beb121",
+    "clientId": "1918315b-fdd9-4a57-899e-88fa65daa027",
+    "productId": "prd3",
+    "name": "Proyecto Lanzamiento de Producto",
+    "status": "planned",
+    "createdAt": "2025-09-13T02:47:34.138Z"
+  }
+]

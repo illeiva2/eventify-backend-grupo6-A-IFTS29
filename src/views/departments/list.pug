@@ -1,0 +1,8 @@
+extends ../layout.pug
+
+block content
+  h2 Áreas
+  ul
+    each d in departments
+      li
+        a(href=`/departments/${d.id}/tasks`)= d.name

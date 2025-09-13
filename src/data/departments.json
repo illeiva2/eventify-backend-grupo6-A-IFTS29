@@ -1,0 +1,27 @@
+[
+  {
+    "id": "sales",
+    "name": "Ventas",
+    "slug": "ventas"
+  },
+  {
+    "id": "production",
+    "name": "Producción",
+    "slug": "produccion"
+  },
+  {
+    "id": "logistics",
+    "name": "Logística",
+    "slug": "logistica"
+  },
+  {
+    "id": "purchasing",
+    "name": "Compras",
+    "slug": "compras"
+  },
+  {
+    "id": "admin",
+    "name": "Administración",
+    "slug": "administracion"
+  }
+]

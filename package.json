@@ -1,0 +1,17 @@
+{
+  "name": "eventify-task-manager",
+  "version": "1.0.0",
+  "description": "Backend web app for Eventify S.A.S. - tasks, clients, products using Express, Pug and JSON DB.",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "lint": "echo \"(add your linter here)\""
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pug": "^3.0.3",
+    "uuid": "^9.0.1"
+  }
+}

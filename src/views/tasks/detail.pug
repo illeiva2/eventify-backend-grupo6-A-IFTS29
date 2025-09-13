@@ -1,0 +1,14 @@
+extends ../layout.pug
+
+block content
+  h2= task.title
+  p= task.description
+  p
+    | Estado: strong= task.status
+  p
+    | Área: code= task.departmentId
+    |  · Asignado a: code= task.assigneeId
+  if project
+    p Proyecto asociado: code= project.name
+  p
+    a(href=`/tasks/${task.id}/edit`) ✏️ Editar

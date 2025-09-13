@@ -1,0 +1,10 @@
+extends ../layout.pug
+
+block content
+  h2 Clientes
+  if clients.length
+    ul
+      each c in clients
+        li= c.name + ' (' + c.email + ')'
+  else
+    p (Sin clientes)

@@ -1,0 +1,16 @@
+extends ./layout.pug
+
+block content
+  .card
+    h2 Bienvenido/a 👋
+    p Esta app demo muestra:
+    ul
+      li CRUD de tareas por áreas (compras, ventas, producción, logística).
+      li Alta de cliente → elección de producto → creación de proyecto.
+      li Rutas dinámicas, middleware, POO, Pug y base de datos JSON.
+    p
+      | Empezá por 
+      a(href="/clients/new") dar de alta un cliente
+      |  o 
+      a(href="/tasks") gestionar tareas
+      | .

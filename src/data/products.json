@@ -1,0 +1,20 @@
+[
+  {
+    "id": "prd1",
+    "name": "Boda Full-Service",
+    "category": "Evento social",
+    "price": 25000
+  },
+  {
+    "id": "prd2",
+    "name": "Conferencia Corporativa",
+    "category": "Evento corporativo",
+    "price": 18000
+  },
+  {
+    "id": "prd3",
+    "name": "Lanzamiento de Producto",
+    "category": "Marketing",
+    "price": 22000
+  }
+]

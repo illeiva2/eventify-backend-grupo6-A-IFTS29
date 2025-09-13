@@ -1,0 +1,39 @@
+extends ../layout.pug
+
+block content
+  h2= empleado ? 'Editar Empleado' : 'Nuevo Empleado'
+  
+  if error
+    p(style="color: red; background: #fef2f2; padding: 12px; border-radius: 8px;")= error
+
+  form(method="POST")
+    .card
+      h3 Información Personal
+      .row
+        div
+          label Nombre Completo *
+          input(type="text", name="name", value=empleado ? empleado.name : '', required)
+        div
+          label Email *
+          input(type="email", name="email", value=empleado ? empleado.email : '', required)
+
+    .card
+      h3 Asignación Organizacional
+      .row
+        div
+          label Rol *
+          select(name="roleId", required)
+            option(value="") Seleccionar rol...
+            each role in roles
+              option(value=role.id, selected=empleado && empleado.roleId === role.id)= role.name
+        div
+          label Área *
+          select(name="areaId", required)
+            option(value="") Seleccionar área...
+            each area in areas
+              option(value=area.id, selected=empleado && empleado.areaId === area.id)= area.name
+
+    p
+      button(type="submit")= empleado ? 'Actualizar Empleado' : 'Crear Empleado'
+      |  
+      a(href="/empleados") Cancelar

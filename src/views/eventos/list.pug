@@ -1,0 +1,43 @@
+extends ../layout.pug
+
+block content
+  h2 Gestión de Eventos
+  
+  p
+    a(href="/eventos/new") ➕ Nuevo evento
+
+  if eventos.length
+    table
+      thead
+        tr
+          th Nombre
+          th Cliente
+          th Fecha
+          th Ubicación
+          th Presupuesto
+          th Estado
+          th Acciones
+      tbody
+        each evento in eventos
+          tr
+            td: a(href=`/eventos/${evento.id}`)= evento.name
+            td= evento.clientName
+            td= new Date(evento.date).toLocaleDateString('es-AR')
+            td= evento.location
+            td= new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(evento.budget)
+            td
+              if evento.status === 'planning'
+                span(style="color: orange") Planificación
+              else if evento.status === 'in_progress'
+                span(style="color: blue") En Progreso
+              else if evento.status === 'completed'
+                span(style="color: green") Completado
+              else if evento.status === 'cancelled'
+                span(style="color: red") Cancelado
+            td
+              a(href=`/eventos/${evento.id}/edit`) Editar
+              |  · 
+              form(method="POST", action=`/eventos/${evento.id}/delete`, style="display: inline;")
+                button(type="submit", onclick="return confirm('¿Eliminar evento?')") Eliminar
+  else
+    p (No hay eventos registrados)

@@ -1,0 +1,88 @@
+extends ../layout.pug
+
+block content
+  h2= tarea ? 'Editar Tarea' : 'Nueva Tarea'
+  
+  if error
+    p(style="color: red; background: #fef2f2; padding: 12px; border-radius: 8px;")= error
+
+  form(method="POST")
+    .card
+      h3 Información Básica
+      .row
+        div
+          label Título *
+          input(type="text", name="title", value=tarea ? tarea.title : '', required)
+        div
+          label Estado
+          select(name="status")
+            option(value="pending", selected=!tarea || tarea.status === 'pending') Pendiente
+            option(value="in_process", selected=tarea && tarea.status === 'in_process') En Proceso
+            option(value="finished", selected=tarea && tarea.status === 'finished') Finalizada
+      
+      div
+        label Descripción
+        textarea(name="description", rows="3")= tarea ? tarea.description : ''
+      
+      .row
+        div
+          label Prioridad
+          select(name="priority")
+            option(value="low", selected=tarea && tarea.priority === 'low') Baja
+            option(value="medium", selected=!tarea || tarea.priority === 'medium') Media
+            option(value="high", selected=tarea && tarea.priority === 'high') Alta
+        div
+          label Horas Estimadas
+          input(type="number", name="estimatedHours", value=tarea ? tarea.estimatedHours : 0, min="0")
+
+    .card
+      h3 Fechas
+      .row
+        div
+          label Fecha de Inicio
+          input(type="date", name="startDate", value=tarea ? tarea.startDate : '')
+        div
+          label Fecha de Fin
+          input(type="date", name="endDate", value=tarea ? tarea.endDate : '')
+
+    .card
+      h3 Asignación
+      .row
+        div
+          label Empleado Asignado *
+          select(name="assigneeId", required)
+            option(value="") Seleccionar empleado...
+            each emp in empleados
+              option(value=emp.id, selected=tarea && tarea.assigneeId === emp.id)= emp.name
+        div
+          label Área *
+          select(name="areaId", required)
+            option(value="") Seleccionar área...
+            each area in areas
+              option(value=area.id, selected=tarea && tarea.areaId === area.id)= area.name
+      
+      .row
+        div
+          label Evento
+          select(name="eventId")
+            option(value="") Sin evento asignado
+            each evento in eventos
+              option(value=evento.id, selected=tarea && tarea.eventId === evento.id)= evento.name
+        div
+          label Cliente
+          select(name="clientId")
+            option(value="") Sin cliente asignado
+            each client in clients
+              option(value=client.id, selected=tarea && tarea.clientId === client.id)= client.name
+
+    if tarea
+      .card
+        h3 Seguimiento
+        div
+          label Horas Reales Trabajadas
+          input(type="number", name="actualHours", value=tarea.actualHours || 0, min="0")
+
+    p
+      button(type="submit")= tarea ? 'Actualizar Tarea' : 'Crear Tarea'
+      |  
+      a(href="/tareas") Cancelar

@@ -1,0 +1,83 @@
+extends ../layout.pug
+
+block content
+  h2= tarea.title
+  
+  .card
+    h3 Información General
+    .row
+      div
+        strong Estado: 
+        if tarea.status === 'pending'
+          span(style="color: orange") Pendiente
+        else if tarea.status === 'in_process'
+          span(style="color: blue") En Proceso
+        else if tarea.status === 'finished'
+          span(style="color: green") Finalizada
+      div
+        strong Prioridad: 
+        if tarea.priority === 'high'
+          span(style="color: red") Alta
+        else if tarea.priority === 'medium'
+          span(style="color: orange") Media
+        else
+          span(style="color: green") Baja
+    
+    if tarea.description
+      p
+        strong Descripción: 
+        = tarea.description
+    
+    .row
+      div
+        strong Fecha de Inicio: 
+        = tarea.startDate || 'No definida'
+      div
+        strong Fecha de Fin: 
+        = tarea.endDate || 'No definida'
+    
+    .row
+      div
+        strong Horas Estimadas: 
+        = tarea.estimatedHours
+      div
+        strong Horas Reales: 
+        = tarea.actualHours
+
+  .card
+    h3 Asignación
+    .row
+      div
+        strong Empleado Asignado: 
+        = empleado ? empleado.name : 'No asignado'
+      div
+        strong Área: 
+        = area ? area.name : 'No asignada'
+    
+    if evento
+      div
+        strong Evento: 
+        = evento.name
+    
+    if client
+      div
+        strong Cliente: 
+        = client.name
+
+  .card
+    h3 Fechas del Sistema
+    .row
+      div
+        strong Creado: 
+        = new Date(tarea.createdAt).toLocaleString('es-AR')
+      div
+        strong Actualizado: 
+        = new Date(tarea.updatedAt).toLocaleString('es-AR')
+
+  p
+    a(href=`/tareas/${tarea.id}/edit`) ✏️ Editar
+    |  · 
+    a(href="/tareas") ← Volver a la lista
+    |  · 
+    form(method="POST", action=`/tareas/${tarea.id}/delete`, style="display: inline;")
+      button(type="submit", onclick="return confirm('¿Eliminar tarea?')", style="background: red;") 🗑️ Eliminar

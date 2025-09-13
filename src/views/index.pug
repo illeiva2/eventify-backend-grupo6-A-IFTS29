@@ -2,15 +2,46 @@ extends ./layout.pug
 
 block content
   .card
-    h2 Bienvenido/a 👋
-    p Esta app demo muestra:
+    h2 Bienvenido a Eventify 🎉
+    p Sistema de gestión integral para empresa de eventos
+    p Esta aplicación permite:
     ul
-      li CRUD de tareas por áreas (compras, ventas, producción, logística).
-      li Alta de cliente → elección de producto → creación de proyecto.
-      li Rutas dinámicas, middleware, POO, Pug y base de datos JSON.
-    p
-      | Empezá por 
-      a(href="/clients/new") dar de alta un cliente
-      |  o 
-      a(href="/tasks") gestionar tareas
-      | .
+      li ✅ Gestión completa de tareas organizadas por áreas (Producción y Logística, Planificación y Finanzas)
+      li 👥 Administración de empleados con roles y áreas asignadas
+      li 🎊 Gestión de eventos con presupuestos y fechas
+      li 👨‍💼 Gestión de clientes y contratos
+      li 🔍 Filtros avanzados para seguimiento de tareas
+      li ⏱️ Control de horas estimadas vs. reales
+    
+    h3 Módulos Principales
+    .row
+      .card
+        h4 🎯 Tareas
+        p Gestión completa de tareas por evento y área
+        p
+          a(href="/tareas") Ver tareas
+          |  · 
+          a(href="/tareas/new") Nueva tarea
+      
+      .card
+        h4 👥 Empleados
+        p Administración de personal con roles
+        p
+          a(href="/empleados") Ver empleados
+          |  · 
+          a(href="/empleados/new") Nuevo empleado
+      
+      .card
+        h4 🎊 Eventos
+        p Planificación y gestión de eventos
+        p
+          a(href="/eventos") Ver eventos
+          |  · 
+          a(href="/eventos/new") Nuevo evento
+
+    h3 Áreas de Trabajo
+    ul
+      li 🏭 <strong>Producción y Logística:</strong> Coordinación con proveedores, montaje, verificación técnica
+      li 💰 <strong>Planificación y Finanzas:</strong> Control de presupuesto, contratos, cronograma
+      li 👥 <strong>Atención al Cliente:</strong> Gestión de relaciones con clientes
+      li 🏢 <strong>Administración:</strong> Gestión administrativa general

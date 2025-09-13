@@ -1,0 +1,69 @@
+extends ../layout.pug
+
+block content
+  h2= evento.name
+  
+  .card
+    h3 Información del Evento
+    .row
+      div
+        strong Nombre: 
+        = evento.name
+      div
+        strong Estado: 
+        if evento.status === 'planning'
+          span(style="color: orange") Planificación
+        else if evento.status === 'in_progress'
+          span(style="color: blue") En Progreso
+        else if evento.status === 'completed'
+          span(style="color: green") Completado
+        else if evento.status === 'cancelled'
+          span(style="color: red") Cancelado
+    
+    .row
+      div
+        strong Fecha: 
+        = new Date(evento.date).toLocaleDateString('es-AR')
+      div
+        strong Ubicación: 
+        = evento.location
+    
+    div
+      strong Presupuesto: 
+      = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(evento.budget)
+
+  .card
+    h3 Cliente
+    if client
+      .row
+        div
+          strong Nombre: 
+          = client.name
+        div
+          strong Email: 
+          = client.email
+        div
+          strong Teléfono: 
+          = client.phone
+    else
+      p Cliente no encontrado
+
+  .card
+    h3 Información del Sistema
+    .row
+      div
+        strong Creado: 
+        = new Date(evento.createdAt).toLocaleDateString('es-AR')
+      div
+        strong Última Actualización: 
+        = new Date(evento.updatedAt).toLocaleDateString('es-AR')
+
+  p
+    a(href=`/eventos/${evento.id}/edit`) ✏️ Editar
+    |  · 
+    a(href="/eventos") ← Volver a la lista
+    |  · 
+    a(href=`/tareas?eventId=${evento.id}`) Ver tareas del evento
+    |  · 
+    form(method="POST", action=`/eventos/${evento.id}/delete`, style="display: inline;")
+      button(type="submit", onclick="return confirm('¿Eliminar evento?')", style="background: red;") 🗑️ Eliminar

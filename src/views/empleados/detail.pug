@@ -1,0 +1,46 @@
+extends ../layout.pug
+
+block content
+  h2= empleado.name
+  
+  .card
+    h3 Información Personal
+    .row
+      div
+        strong Nombre: 
+        = empleado.name
+      div
+        strong Email: 
+        = empleado.email
+    
+    .row
+      div
+        strong Rol: 
+        = role ? role.name : 'No asignado'
+        if role && role.description
+          br
+          small= role.description
+      div
+        strong Área: 
+        = area ? area.name : 'No asignada'
+        if area && area.description
+          br
+          small= area.description
+
+  .card
+    h3 Información del Sistema
+    .row
+      div
+        strong Fecha de Ingreso: 
+        = new Date(empleado.createdAt).toLocaleDateString('es-AR')
+      div
+        strong Última Actualización: 
+        = new Date(empleado.updatedAt).toLocaleDateString('es-AR')
+
+  p
+    a(href=`/empleados/${empleado.id}/edit`) ✏️ Editar
+    |  · 
+    a(href="/empleados") ← Volver a la lista
+    |  · 
+    form(method="POST", action=`/empleados/${empleado.id}/delete`, style="display: inline;")
+      button(type="submit", onclick="return confirm('¿Eliminar empleado?')", style="background: red;") 🗑️ Eliminar

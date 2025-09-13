@@ -1,0 +1,100 @@
+extends ../layout.pug
+
+block content
+  h2 Gestión de Tareas - Eventify
+  
+  .row
+    div
+      a(href="/tareas/new") ➕ Nueva tarea
+    div
+      h3 Filtros
+      form(method="GET")
+        .row
+          div
+            label Estado:
+            select(name="status")
+              option(value="") Todos
+              option(value="pending", selected=filters.status === 'pending') Pendiente
+              option(value="in_process", selected=filters.status === 'in_process') En Proceso
+              option(value="finished", selected=filters.status === 'finished') Finalizada
+          div
+            label Prioridad:
+            select(name="priority")
+              option(value="") Todas
+              option(value="low", selected=filters.priority === 'low') Baja
+              option(value="medium", selected=filters.priority === 'medium') Media
+              option(value="high", selected=filters.priority === 'high') Alta
+        .row
+          div
+            label Empleado:
+            select(name="assigneeId")
+              option(value="") Todos
+              each emp in empleados
+                option(value=emp.id, selected=filters.assigneeId === emp.id)= emp.name
+          div
+            label Evento:
+            select(name="eventId")
+              option(value="") Todos
+              each evento in eventos
+                option(value=evento.id, selected=filters.eventId === evento.id)= evento.name
+        .row
+          div
+            label Fecha Inicio (desde):
+            input(type="date", name="startDate", value=filters.startDate)
+          div
+            label Fecha Fin (hasta):
+            input(type="date", name="endDate", value=filters.endDate)
+        div
+          button(type="submit") Filtrar
+          |  
+          a(href="/tareas") Limpiar filtros
+
+  if tareas.length
+    table
+      thead
+        tr
+          th Título
+          th Estado
+          th Prioridad
+          th Empleado
+          th Área
+          th Evento
+          th Cliente
+          th Horas Est.
+          th Horas Real
+          th Fecha Inicio
+          th Fecha Fin
+          th Acciones
+      tbody
+        each t in tareas
+          tr
+            td: a(href=`/tareas/${t.id}`)= t.title
+            td
+              if t.status === 'pending'
+                span(style="color: orange") Pendiente
+              else if t.status === 'in_process'
+                span(style="color: blue") En Proceso
+              else if t.status === 'finished'
+                span(style="color: green") Finalizada
+            td
+              if t.priority === 'high'
+                span(style="color: red") Alta
+              else if t.priority === 'medium'
+                span(style="color: orange") Media
+              else
+                span(style="color: green") Baja
+            td= t.empleadoName
+            td= t.areaName
+            td= t.eventoName
+            td= t.clientName
+            td= t.estimatedHours
+            td= t.actualHours
+            td= t.startDate || '-'
+            td= t.endDate || '-'
+            td
+              a(href=`/tareas/${t.id}/edit`) Editar
+              |  · 
+              form(method="POST", action=`/tareas/${t.id}/delete`, style="display: inline;")
+                button(type="submit", onclick="return confirm('¿Eliminar tarea?')") Eliminar
+  else
+    p (No hay tareas que coincidan con los filtros)

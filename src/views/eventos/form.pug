@@ -1,0 +1,48 @@
+extends ../layout.pug
+
+block content
+  h2= evento ? 'Editar Evento' : 'Nuevo Evento'
+  
+  if error
+    p(style="color: red; background: #fef2f2; padding: 12px; border-radius: 8px;")= error
+
+  form(method="POST")
+    .card
+      h3 Información Básica
+      .row
+        div
+          label Nombre del Evento *
+          input(type="text", name="name", value=evento ? evento.name : '', required)
+        div
+          label Estado
+          select(name="status")
+            option(value="planning", selected=!evento || evento.status === 'planning') Planificación
+            option(value="in_progress", selected=evento && evento.status === 'in_progress') En Progreso
+            option(value="completed", selected=evento && evento.status === 'completed') Completado
+            option(value="cancelled", selected=evento && evento.status === 'cancelled') Cancelado
+      
+      .row
+        div
+          label Fecha del Evento *
+          input(type="date", name="date", value=evento ? evento.date : '', required)
+        div
+          label Ubicación *
+          input(type="text", name="location", value=evento ? evento.location : '', required)
+      
+      div
+        label Presupuesto (ARS) *
+        input(type="number", name="budget", value=evento ? evento.budget : '', required, min="0", step="0.01")
+
+    .card
+      h3 Cliente
+      div
+        label Cliente *
+        select(name="clientId", required)
+          option(value="") Seleccionar cliente...
+          each client in clients
+            option(value=client.id, selected=evento && evento.clientId === client.id)= client.name
+
+    p
+      button(type="submit")= evento ? 'Actualizar Evento' : 'Crear Evento'
+      |  
+      a(href="/eventos") Cancelar

@@ -1,0 +1,33 @@
+extends ../layout.pug
+
+block content
+  h2 Gestión de Empleados
+  
+  p
+    a(href="/empleados/new") ➕ Nuevo empleado
+
+  if empleados.length
+    table
+      thead
+        tr
+          th Nombre
+          th Email
+          th Rol
+          th Área
+          th Fecha de Ingreso
+          th Acciones
+      tbody
+        each emp in empleados
+          tr
+            td: a(href=`/empleados/${emp.id}`)= emp.name
+            td= emp.email
+            td= emp.roleName
+            td= emp.areaName
+            td= new Date(emp.createdAt).toLocaleDateString('es-AR')
+            td
+              a(href=`/empleados/${emp.id}/edit`) Editar
+              |  · 
+              form(method="POST", action=`/empleados/${emp.id}/delete`, style="display: inline;")
+                button(type="submit", onclick="return confirm('¿Eliminar empleado?')") Eliminar
+  else
+    p (No hay empleados registrados)

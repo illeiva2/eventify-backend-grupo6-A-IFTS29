@@ -15,3 +15,7 @@ export async function create(req, res) {
   await projectsDb.create(project);
   res.redirect('/projects');
 }
+export async function projectsJSON(req, res) {
+  const projects = await projectsDb.getAll();
+  res.json(projects);
+}

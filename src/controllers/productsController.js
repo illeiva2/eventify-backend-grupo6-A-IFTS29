@@ -6,3 +6,7 @@ export async function list(req, res) {
   const { clientId } = req.query;
   res.render('products/list', { products, clientId });
 }
+export async function productsJSON(req, res) {
+  const products = await productsDb.getAll();
+  res.json(products);
+}

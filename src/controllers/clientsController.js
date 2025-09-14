@@ -18,3 +18,8 @@ export async function list(req, res) {
   const clients = await clientsDb.getAll();
   res.render('clients/list', { clients });
 }
+
+export async function clientsJSON(req, res) {
+  const clients = await clientsDb.getAll();
+  res.json(clients);
+}

@@ -5,3 +5,7 @@ export async function list(req, res) {
   const departments = await departmentsDb.getAll();
   res.render('departments/list', { departments });
 }
+export async function departmentsJSON(req, res) {
+  const departments = await departmentsDb.getAll();
+  res.json(departments);
+}

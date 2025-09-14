@@ -70,3 +70,14 @@ export async function remove(req, res, next) {
   if (!ok) return next({ status: 404, message: 'Task not found' });
   res.redirect('/tasks');
 }
+
+export async function tasksJSON(req, res) {
+  const tasks = await tasksDb.getAll();
+  res.json(tasks);
+}
+
+export async function tasksByUserJSON(req, res) {
+  const { userId } = req.params;
+  const tasks = await tasksDb.filter(t => t.assigneeId === userId);
+  res.json(tasks);
+}

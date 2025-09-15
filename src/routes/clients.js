@@ -9,6 +9,7 @@ router.get('/json', asyncHandler(ctrl.clientsJSON));
 router.get('/new', asyncHandler(ctrl.newForm));
 router.post('/', asyncHandler(ctrl.create));
 router.delete('/:id', asyncHandler(ctrl.remove));
+router.put('/:id', asyncHandler(ctrl.update));
 
 
 export default router;

@@ -8,9 +8,11 @@ export async function newForm(req, res) {
 }
 
 export async function create(req, res) {
+  
   const { name, email, phone } = req.body;
   const client = new Client({ id: uuid(), name, email, phone });
   await clientsDb.create(client);
+  
   res.redirect(`/products?clientId=${client.id}`);
 }
 
@@ -34,4 +36,24 @@ export async function remove(req, res) {
   } else {
     res.status(404).json({ success: false, message: 'Cliente no encontrado' });
   }
+}
+
+// update
+export async function update(req, res){
+  const {id} = req.params;
+  const {name, email, phone} = req.body;
+
+  const client = await clientsDb.getById(id);
+  if (!client){
+    return res.status(404).json({success: false, message: 'Cliente no encontrado'});
+
+  }
+  // Actualizamos los campos
+  client.name = name;
+  client.email = email;
+  client.phone = phone;
+
+
+  await clientsDb.update(id, client);
+  res.json({success: true, message: 'Cliente actualizado con éxito', client})
 }

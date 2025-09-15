@@ -14,5 +14,13 @@
     "name": "Proyecto Lanzamiento de Producto",
     "status": "planned",
     "createdAt": "2025-09-13T02:47:34.138Z"
+  },
+  {
+    "id": "2038824c-26a1-40f9-8841-d44aa9092624",
+    "clientId": "30db0560-9452-4acd-ac53-66af5fd8dabd",
+    "productId": "prd2",
+    "name": "Proyecto Conferencia Corporativa",
+    "status": "planned",
+    "createdAt": "2025-09-15T17:57:22.434Z"
   }
 ]

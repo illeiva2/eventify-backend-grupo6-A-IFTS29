@@ -8,9 +8,11 @@ export async function newForm(req, res) {
 }
 
 export async function create(req, res) {
+  
   const { name, email, phone } = req.body;
   const client = new Client({ id: uuid(), name, email, phone });
   await clientsDb.create(client);
+  
   res.redirect(`/products?clientId=${client.id}`);
 }
 

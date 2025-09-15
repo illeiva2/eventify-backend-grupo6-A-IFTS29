@@ -25,3 +25,15 @@ export async function clientsJSON(req, res) {
   const clients = await clientsDb.getAll();
   res.json(clients);
 }
+
+
+export async function remove(req, res) {
+  const { id } = req.params;
+  const client = await clientsDb.getById(id); 
+  const deleted = await clientsDb.remove(id);
+  if (deleted && client) {
+    res.json({ success: true, message: 'Cliente eliminado correctamente', name:client.name });
+  } else {
+    res.status(404).json({ success: false, message: 'Cliente no encontrado' });
+  }
+}

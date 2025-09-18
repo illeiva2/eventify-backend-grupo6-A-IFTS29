@@ -1,17 +1,5 @@
 [
   {
-    "id": "t1",
-    "title": "Cotizar catering",
-    "description": "Pedir 3 presupuestos",
-    "departmentId": "purchasing",
-    "assigneeId": "u4",
-    "status": "pending",
-    "dueDate": "2025-09-30",
-    "projectId": null,
-    "createdAt": "2025-09-10T00:00:00.000Z",
-    "updatedAt": "2025-09-10T00:00:00.000Z"
-  },
-  {
     "id": "c01ceac1-4d8d-4c4b-8e78-57e483724440",
     "title": "ewrw",
     "description": "werw",
@@ -34,5 +22,53 @@
     "projectId": null,
     "createdAt": "2025-09-13T02:49:45.749Z",
     "updatedAt": "2025-09-13T02:49:45.749Z"
+  },
+  {
+    "id": "6bc0d925-56bf-4fdd-a26c-ce560b3ad450",
+    "title": "sfgdf",
+    "description": "sdfsdf",
+    "departmentId": "sales",
+    "assigneeId": "u1",
+    "status": "pending",
+    "dueDate": "2002-02-12",
+    "projectId": null,
+    "createdAt": "2025-09-18T22:23:26.293Z",
+    "updatedAt": "2025-09-18T22:23:26.293Z"
+  },
+  {
+    "id": "aa3936f1-b64b-4a62-9cdc-9c1a6d50dae3",
+    "title": "kjgj",
+    "description": "hjggj",
+    "departmentId": "sales",
+    "assigneeId": "u2",
+    "status": "pending",
+    "dueDate": "2002-02-12",
+    "projectId": null,
+    "createdAt": "2025-09-18T22:26:11.290Z",
+    "updatedAt": "2025-09-18T22:26:11.290Z"
+  },
+  {
+    "id": "a982f41b-9591-41b5-8b26-7c9301dc3831",
+    "title": "prueba",
+    "description": "sadd",
+    "departmentId": "sales",
+    "assigneeId": "u2",
+    "status": "pending",
+    "dueDate": "2002-02-12",
+    "projectId": null,
+    "createdAt": "2025-09-18T22:34:46.211Z",
+    "updatedAt": "2025-09-18T22:34:46.211Z"
+  },
+  {
+    "id": "f7f5da1b-b859-40eb-9862-d8188c71612e",
+    "title": "tyyr",
+    "description": "rtyrt",
+    "departmentId": "production",
+    "assigneeId": "u2",
+    "status": "pending",
+    "dueDate": "2220-02-12",
+    "projectId": null,
+    "createdAt": "2025-09-18T22:37:03.988Z",
+    "updatedAt": "2025-09-18T22:37:03.988Z"
   }
 ]

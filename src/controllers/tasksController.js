@@ -24,7 +24,43 @@ export async function detail(req, res, next) {
   const task = await tasksDb.getById(req.params.id);
   if (!task) return next({ status: 404, message: 'Task not found' });
   const project = task.projectId ? await projectsDb.getById(task.projectId) : null;
-  res.render('tasks/detail', { task, project });
+  let department = null;
+  let departmentName = '-';
+  const deptId = task.departmentId && typeof task.departmentId === 'string' ? task.departmentId.trim() : null;
+  if (deptId) {
+    department = await departmentsDb.getById(deptId);
+    if (!department) {
+      // try fuzzy: find by slug or name
+      const allDepts = await departmentsDb.getAll();
+      department = allDepts.find(d => d.slug === deptId || d.name === deptId) || null;
+    }
+    if (department) departmentName = department.name;
+  }
+
+  let assignee = null;
+  let assigneeName = '-';
+  const assigneeId = task.assigneeId && typeof task.assigneeId === 'string' ? task.assigneeId.trim() : null;
+  if (assigneeId) {
+    assignee = await usersDb.getById(assigneeId);
+    if (!assignee) {
+      const allUsers = await usersDb.getAll();
+      assignee = allUsers.find(u => u.id === assigneeId || u.name === assigneeId || u.email === assigneeId) || null;
+    }
+    if (assignee) assigneeName = assignee.name;
+  }
+
+  const statusMap = {
+    pending: 'Pendiente',
+    'in-progress': 'En progreso',
+    done: 'Completada',
+    cancelled: 'Cancelada'
+  };
+  const statusLabel = statusMap[task.status] || (task.status ? task.status : 'Pendiente');
+
+  if (departmentName && typeof departmentName === 'string') departmentName = departmentName.trim();
+  if (assigneeName && typeof assigneeName === 'string') assigneeName = assigneeName.trim();
+
+  res.render('tasks/detail', { task, project, departmentName, assigneeName, statusLabel });
 }
 
 export async function newForm(req, res) {

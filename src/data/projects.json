@@ -22,5 +22,13 @@
     "name": "Proyecto Conferencia Corporativa",
     "status": "planned",
     "createdAt": "2025-09-15T17:57:22.434Z"
+  },
+  {
+    "id": "5a0b2ab6-5a40-40d6-a6b8-8795f8dfda8b",
+    "clientId": "65eb11b1-c6c6-4605-a08a-958d1115acd3",
+    "productId": "prd2",
+    "name": "Proyecto Conferencia Corporativa",
+    "status": "planned",
+    "createdAt": "2025-09-18T22:27:51.954Z"
   }
 ]

@@ -2,17 +2,17 @@ extends ../layout.pug
 
 block content
   h2 Productos/Servicios
-  if clientId
-    p Cliente ID: 
-    code= clientId
+  if client
+    p Cliente encontrado: 
+    strong= client.name
   if products.length
     each pdt in products
       .card
         h3= pdt.name
         p= pdt.category + ' · $' + pdt.price
-        if clientId
+        if client
           form(method="POST", action="/projects")
-            input(type="hidden", name="clientId", value=clientId)
+            input(type="hidden", name="clientId", value=client.id)
             input(type="hidden", name="productId", value=pdt.id)
             input(type="hidden", name="name", value=`Proyecto ${pdt.name}`)
             button(type="submit") Crear proyecto con este producto

@@ -1,59 +1,52 @@
-import { v4 as uuid } from 'uuid';
-import JsonDB from '../services/jsonDb.js';
+import { isValidObjectId } from 'mongoose';
 import Client from '../models/Client.js';
-const clientsDb = new JsonDB('clients.json', []);
+
+async function resolveClient(id) {
+  if (!id) return null;
+  if (isValidObjectId(id)) {
+    const c = await Client.findById(id).exec();
+    if (c) return c;
+  }
+  return null;
+}
 
 export async function newForm(req, res) {
   res.render('clients/new');
 }
 
 export async function create(req, res) {
-  
   const { name, email, phone } = req.body;
-  const client = new Client({ id: uuid(), name, email, phone });
-  await clientsDb.create(client);
-  
-  res.redirect(`/products?clientId=${client.id}`);
+  const client = new Client({ name, email, phone, createdAt: new Date() });
+  await client.save();
+  res.redirect(`/products?clientId=${client._id}`);
 }
 
 export async function list(req, res) {
-  const clients = await clientsDb.getAll();
+  const clients = await Client.find().lean().exec();
   res.render('clients/list', { clients });
 }
 
 export async function clientsJSON(req, res) {
-  const clients = await clientsDb.getAll();
+  const clients = await Client.find().lean().exec();
   res.json(clients);
 }
 
-
 export async function remove(req, res) {
   const { id } = req.params;
-  const client = await clientsDb.getById(id); 
-  const deleted = await clientsDb.remove(id);
-  if (deleted && client) {
-    res.json({ success: true, message: 'Cliente eliminado correctamente', name:client.name });
-  } else {
-    res.status(404).json({ success: false, message: 'Cliente no encontrado' });
-  }
+  const client = await resolveClient(id);
+  if (!client) return res.status(404).json({ success: false, message: 'Cliente no encontrado' });
+  await Client.deleteOne({ _id: client._id }).exec();
+  res.json({ success: true, message: 'Cliente eliminado correctamente', name: client.name });
 }
 
-// update
-export async function update(req, res){
-  const {id} = req.params;
-  const {name, email, phone} = req.body;
-
-  const client = await clientsDb.getById(id);
-  if (!client){
-    return res.status(404).json({success: false, message: 'Cliente no encontrado'});
-
-  }
-  // Actualizamos los campos
+export async function update(req, res) {
+  const { id } = req.params;
+  const { name, email, phone } = req.body;
+  const client = await resolveClient(id);
+  if (!client) return res.status(404).json({ success: false, message: 'Cliente no encontrado' });
   client.name = name;
   client.email = email;
   client.phone = phone;
-
-
-  await clientsDb.update(id, client);
-  res.json({success: true, message: 'Cliente actualizado con éxito', client})
+  await client.save();
+  res.json({ success: true, message: 'Cliente actualizado con éxito', client });
 }

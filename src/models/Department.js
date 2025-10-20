@@ -1,7 +1,8 @@
-export default class Department {
-  constructor({ id, name, slug }) {
-    this.id = id;
-    this.name = name;
-    this.slug = slug;
-  }
-}
+import mongoose from 'mongoose';
+
+const DepartmentSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  slug: String
+});
+
+export default mongoose.model('Department', DepartmentSchema);

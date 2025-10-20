@@ -1,84 +1,59 @@
-import JsonDB from "../services/jsonDb.js";
-import { v4 as uuidv4 } from "uuid";
-import Product from "../models/Product.js";
-const productsDb = new JsonDB("products.json", []);
-const clientsDb = new JsonDB("clients.json", []);
+import Product from '../models/Product.js';
+import Client from '../models/Client.js';
+import { isValidObjectId } from 'mongoose';
 
-// Agregar
+async function resolveById(Model, id) {
+  if (!id) return null;
+  // only resolve by ObjectId — legacyId was removed during migration
+  if (isValidObjectId(id)) {
+    return await Model.findById(id).exec();
+  }
+  return null;
+}
+
 export async function create(req, res) {
   const { name, price, category } = req.body;
-
   const product = new Product({
-    id: uuidv4(),
     name,
-    price: Number(price),
+    price: price ? Number(price) : undefined,
     category,
-    createdAt: new Date().toISOString(),
+    createdAt: new Date()
   });
-
-  await productsDb.create(product);
-  res.redirect("/products");
+  await product.save();
+  res.redirect('/products');
 }
-// Listar
-export async function list(req, res) {
-  const products = await productsDb.getAll();
-  const { clientId } = req.query;
-  console.log("Client ID from query:", clientId);
 
+export async function list(req, res) {
+  const products = await Product.find().lean().exec();
+  const { clientId } = req.query;
   let client = null;
   if (clientId) {
-    const clients = await clientsDb.getAll();
-    client = clients.find((c) => c.id === clientId) || null;
-    console.log("Found client:", client);
+    client = await resolveById(Client, clientId);
   }
-  res.render("products/list", { products, client });
+  res.render('products/list', { products, client });
 }
+
 export async function productsJSON(req, res) {
-  const products = await productsDb.getAll();
+  const products = await Product.find().lean().exec();
   res.json(products);
 }
-// Actualizar
+
 export async function update(req, res) {
   const { id } = req.params;
   const { name, price, category } = req.body;
-
-  const product = await productsDb.getById(id);
-  if (!product) {
-    return res
-      .status(404)
-      .json({ success: false, message: "Producto no encontrado" });
-  }
+  const product = await resolveById(Product, id);
+  if (!product) return res.status(404).json({ success: false, message: 'Producto no encontrado' });
   product.name = name;
-  product.price = price;
+  product.price = price ? Number(price) : product.price;
   product.category = category;
-
-  const update = await productsDb.update(id, product);
-  if (!update) {
-    return res
-      .status(500)
-      .json({ success: false, message: "Error al actualizar el producto" });
-  }
-  res.json({
-    success: true,
-    message: "Producto actualizado correctamente",
-    product,
-  });
+  await product.save();
+  res.json({ success: true, message: 'Producto actualizado correctamente', product });
 }
-// Eliminar
+
 export async function remove(req, res) {
   const { id } = req.params;
-
-  const product = await productsDb.getById(id);
-  if (!product) {
-    return res
-      .status(404)
-      .json({ success: false, message: "Producto no encontrado" });
-  }
-  const deleted = await productsDb.remove(id);
-  if (!deleted) {
-    return res
-      .status(500)
-      .json({ success: false, message: "Error al eliminar el producto" });
-  }
-  res.json({ success: true, message: "Producto eliminado correctamente" });
+  const product = await resolveById(Product, id);
+  if (!product) return res.status(404).json({ success: false, message: 'Producto no encontrado' });
+  await Product.deleteOne({ _id: product._id }).exec();
+  res.json({ success: true, message: 'Producto eliminado correctamente' });
 }

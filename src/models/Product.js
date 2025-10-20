@@ -1,9 +1,11 @@
-export default class Product {
-  constructor({ id, name, category, price }) {
-    this.id = id;
-    this.name = name;
-    this.category = category;
-    this.price = price;
-    this.createdAt = new Date().toISOString();
-  }
-}
+import mongoose from 'mongoose';
+
+const ProductSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  category: String,
+  price: Number,
+  description: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+export default mongoose.model('Product', ProductSchema);

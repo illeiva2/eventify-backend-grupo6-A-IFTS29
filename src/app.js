@@ -10,6 +10,7 @@ import clientsRouter from './routes/clients.js';
 import productsRouter from './routes/products.js';
 import projectsRouter from './routes/projects.js';
 import departmentsRouter from './routes/departments.js';
+import connectDB from './config/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,8 +41,15 @@ app.use('/departments', departmentsRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-// Start server
+// Start server after DB connection
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Eventify Task Manager running at http://localhost:${PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`✅ Eventify Task Manager running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to start server due to DB connection error');
+    process.exit(1);
+  });

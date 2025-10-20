@@ -1,51 +1,81 @@
-import { v4 as uuid } from 'uuid';
-import JsonDB from '../services/jsonDb.js';
+import { isValidObjectId } from 'mongoose';
 import Task from '../models/Task.js';
-const tasksDb = new JsonDB('tasks.json', []);
-const usersDb = new JsonDB('users.json', []);
-const departmentsDb = new JsonDB('departments.json', []);
-const projectsDb = new JsonDB('projects.json', []);
+import User from '../models/User.js';
+import Department from '../models/Department.js';
+import Project from '../models/Project.js';
+
+async function resolve(Model, id) {
+  if (!id) return null;
+  if (isValidObjectId(id)) {
+    return await Model.findById(id).exec();
+  }
+  return null;
+}
 
 export async function list(req, res) {
-  const tasks = await tasksDb.getAll();
-  const departments = await departmentsDb.getAll();
-  const users = await usersDb.getAll();
+  const tasksRaw = await Task.find().lean().exec();
+  const departments = await Department.find().lean().exec();
+  const users = await User.find().lean().exec();
+  const tasks = tasksRaw.map(t => ({
+    ...t,
+    id: t._id?.toString(),
+    dueDate: t.dueDate ? (new Date(t.dueDate)).toISOString().split('T')[0] : null
+  }));
   res.render('tasks/list', { tasks, departments, users });
 }
 
 export async function byDepartment(req, res) {
-  const { deptId } = req.params;
-  const tasks = await tasksDb.filter(t => t.departmentId === deptId);
-  const dept = await departmentsDb.getById(deptId);
-  res.render('tasks/list', { tasks, currentDept: dept });
+  let { deptId } = req.params;
+  if (typeof deptId === 'string') deptId = deptId.trim();
+  // handle empty or literal 'undefined' param
+  if (!deptId || deptId === 'undefined') {
+    return res.render('tasks/list', { tasks: [], currentDept: null });
+  }
+
+  // try to resolve deptId to ObjectId or legacyId
+  const dept = await resolve(Department, deptId);
+  if (dept) {
+    const tasksRaw = await Task.find({ departmentId: dept._id }).lean().exec();
+    const tasks = tasksRaw.map(t => ({
+      ...t,
+      id: t._id?.toString(),
+      dueDate: t.dueDate ? (new Date(t.dueDate)).toISOString().split('T')[0] : null
+    }));
+    return res.render('tasks/list', { tasks, currentDept: dept });
+  }
+
+  // try fuzzy: slug or name
+  const allDepts = await Department.find().lean().exec();
+  const fuzzy = allDepts.find(d => d.slug === deptId || d.name === deptId) || null;
+  if (fuzzy) {
+    const tasksRaw = await Task.find({ departmentId: fuzzy._id }).lean().exec();
+    const tasks = tasksRaw.map(t => ({
+      ...t,
+      id: t._id?.toString(),
+      dueDate: t.dueDate ? (new Date(t.dueDate)).toISOString().split('T')[0] : null
+    }));
+    return res.render('tasks/list', { tasks, currentDept: fuzzy });
+  }
+
+  // nothing found — render empty
+  return res.render('tasks/list', { tasks: [], currentDept: null });
 }
 
 export async function detail(req, res, next) {
-  const task = await tasksDb.getById(req.params.id);
+  const { id } = req.params;
+  const task = await resolve(Task, id);
   if (!task) return next({ status: 404, message: 'Task not found' });
-  const project = task.projectId ? await projectsDb.getById(task.projectId) : null;
-  let department = null;
+  const project = task.projectId ? await resolve(Project, task.projectId) : null;
+
   let departmentName = '-';
-  const deptId = task.departmentId && typeof task.departmentId === 'string' ? task.departmentId.trim() : null;
-  if (deptId) {
-    department = await departmentsDb.getById(deptId);
-    if (!department) {
-      // try fuzzy: find by slug or name
-      const allDepts = await departmentsDb.getAll();
-      department = allDepts.find(d => d.slug === deptId || d.name === deptId) || null;
-    }
+  if (task.departmentId) {
+    const department = await resolve(Department, task.departmentId);
     if (department) departmentName = department.name;
   }
 
-  let assignee = null;
   let assigneeName = '-';
-  const assigneeId = task.assigneeId && typeof task.assigneeId === 'string' ? task.assigneeId.trim() : null;
-  if (assigneeId) {
-    assignee = await usersDb.getById(assigneeId);
-    if (!assignee) {
-      const allUsers = await usersDb.getAll();
-      assignee = allUsers.find(u => u.id === assigneeId || u.name === assigneeId || u.email === assigneeId) || null;
-    }
+  if (task.assigneeId) {
+    const assignee = await resolve(User, task.assigneeId);
     if (assignee) assigneeName = assignee.name;
   }
 
@@ -57,63 +87,83 @@ export async function detail(req, res, next) {
   };
   const statusLabel = statusMap[task.status] || (task.status ? task.status : 'Pendiente');
 
-  if (departmentName && typeof departmentName === 'string') departmentName = departmentName.trim();
-  if (assigneeName && typeof assigneeName === 'string') assigneeName = assigneeName.trim();
-
   res.render('tasks/detail', { task, project, departmentName, assigneeName, statusLabel });
 }
 
 export async function newForm(req, res) {
-  const users = await usersDb.getAll();
-  const departments = await departmentsDb.getAll();
+  const users = await User.find().lean().exec();
+  const departments = await Department.find().lean().exec();
   res.render('tasks/form', { users, departments, task: null });
 }
 
 export async function create(req, res) {
   const { title, description, departmentId, assigneeId, dueDate, projectId } = req.body;
   if (!title || !departmentId || !assigneeId) {
-    const users = await usersDb.getAll();
-    const departments = await departmentsDb.getAll();
+    const users = await User.find().lean().exec();
+    const departments = await Department.find().lean().exec();
     return res.status(400).render('tasks/form', { users, departments, task: req.body, error: 'Título, Área y Asignado son obligatorios.' });
   }
-
-  const cleanDept = departmentId === '' ? null : departmentId;
-  const cleanAssignee = assigneeId === '' ? null : assigneeId;
-  const cleanDue = dueDate === '' ? null : dueDate;
-
-  const task = new Task({ id: uuid(), title, description, departmentId: cleanDept, assigneeId: cleanAssignee, dueDate: cleanDue, projectId });
-  await tasksDb.create(task);
+  const department = await resolve(Department, departmentId);
+  const assignee = await resolve(User, assigneeId);
+  const project = projectId ? await resolve(Project, projectId) : null;
+  const task = new Task({
+    title,
+    description,
+    departmentId: department ? department._id : undefined,
+    assigneeId: assignee ? assignee._id : undefined,
+    dueDate: dueDate ? new Date(dueDate) : undefined,
+    projectId: project ? project._id : undefined,
+    createdAt: new Date()
+  });
+  await task.save();
   res.redirect('/tasks');
 }
 
 export async function editForm(req, res, next) {
-  const task = await tasksDb.getById(req.params.id);
+  const task = await resolve(Task, req.params.id);
   if (!task) return next({ status: 404, message: 'Task not found' });
-  const users = await usersDb.getAll();
-  const departments = await departmentsDb.getAll();
+  const users = await User.find().lean().exec();
+  const departments = await Department.find().lean().exec();
   res.render('tasks/form', { task, users, departments });
 }
 
 export async function update(req, res, next) {
   const { title, description, departmentId, assigneeId, status, dueDate } = req.body;
-  const updated = await tasksDb.update(req.params.id, { title, description, departmentId, assigneeId, status, dueDate, updatedAt: new Date().toISOString() });
-  if (!updated) return next({ status: 404, message: 'Task not found' });
+  const task = await resolve(Task, req.params.id);
+  if (!task) return next({ status: 404, message: 'Task not found' });
+  task.title = title;
+  task.description = description;
+  const department = await resolve(Department, departmentId);
+  const assignee = await resolve(User, assigneeId);
+  task.departmentId = department ? department._id : departmentId;
+  task.assigneeId = assignee ? assignee._id : assigneeId;
+  task.status = status;
+  task.dueDate = dueDate ? new Date(dueDate) : null;
+  task.updatedAt = new Date();
+  await Task.updateOne({ _id: task._id }, task).exec();
   res.redirect('/tasks/' + req.params.id);
 }
 
 export async function remove(req, res, next) {
-  const ok = await tasksDb.remove(req.params.id);
-  if (!ok) return next({ status: 404, message: 'Task not found' });
+  const task = await resolve(Task, req.params.id);
+  if (!task) return next({ status: 404, message: 'Task not found' });
+  await Task.deleteOne({ _id: task._id }).exec();
   res.redirect('/tasks');
 }
 
 export async function tasksJSON(req, res) {
-  const tasks = await tasksDb.getAll();
+  const tasksRaw = await Task.find().lean().exec();
+  const tasks = tasksRaw.map(t => ({ ...t, id: t._id?.toString() }));
   res.json(tasks);
 }
 
 export async function tasksByUserJSON(req, res) {
   const { userId } = req.params;
-  const tasks = await tasksDb.filter(t => t.assigneeId === userId);
+  const user = await resolve(User, userId);
+  const query = {};
+  if (user) query.assigneeId = user._id;
+  else query.assigneeId = userId; // fallback
+  const tasksRaw = await Task.find(query).lean().exec();
+  const tasks = tasksRaw.map(t => ({ ...t, id: t._id?.toString() }));
   res.json(tasks);
 }

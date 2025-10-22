@@ -24,7 +24,8 @@ export async function create(req, res) {
 }
 
 export async function list(req, res) {
-  const products = await Product.find().lean().exec();
+  const productsRaw = await Product.find().lean().exec();
+  const products = productsRaw.map(p => ({ ...p, id: p._id?.toString() }));
   const { clientId } = req.query;
   let client = null;
   if (clientId) {

@@ -1,21 +1,44 @@
-import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
+import 'dotenv/config';
 
-const DEFAULT_URI = 'mongodb://127.0.0.1:27017/eventify';
+const DEFAULT_URI = 'PONER_LA_URI_DE_MONGODB_ACA_ESTA_MAL_NO_LO_HAGAS_ROMINA';
+const DEFAULT_DB_NAME = 'Eventify';
 
-async function connectDB(uri = process.env.MONGODB_URI || DEFAULT_URI) {
-  if (mongoose.connection.readyState === 1) {
-    return mongoose.connection;
-  }
+let client = null;
+let db = null;
 
+
+async function connectDB(uri = process.env.MONGODB_URI || DEFAULT_URI, dbName = process.env.DB_NAME || DEFAULT_DB_NAME) {
+  if (db) return db; 
   try {
-    await mongoose.connect(uri, {
+    client = new MongoClient(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    return mongoose.connection;
+    await client.connect();
+    db = client.db(dbName);
+    return db;
   } catch (err) {
+    if (client) {
+      try { await client.close(); } catch (_) {}
+      client = null;
+      db = null;
+    }
     throw err;
   }
 }
 
+function getClient() {
+  return client;
+}
+
+async function closeDB() {
+  if (client) {
+    await client.close();
+    client = null;
+    db = null;
+  }
+}
+
 export default connectDB;
+export { getClient, closeDB };

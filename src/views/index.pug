@@ -1,16 +1,57 @@
 extends ./layout.pug
 
 block content
-  .card
-    h2 Bienvenido/a 👋
-    p Esta app demo muestra:
-    ul
-      li CRUD de tareas por áreas (compras, ventas, producción, logística).
-      li Alta de cliente → elección de producto → creación de proyecto.
-      li Rutas dinámicas, middleware, POO, Pug y base de datos JSON.
-    p
-      | Empezá por 
-      a(href="/clients/new") dar de alta un cliente
-      |  o 
-      a(href="/tasks") gestionar tareas
-      | .
+  section.card(style="background: linear-gradient(135deg, rgba(244,114,182,0.24), rgba(56,189,248,0.2)); border: 1px solid rgba(255,255,255,0.08);")
+    span.pill 🎪 Producción en vivo · Semana 42
+    h2(style="margin-bottom: 12px; font-size: 2.35rem;") Bienvenido a Eventify Productions 👋
+    p(style="margin-bottom: 24px; max-width: 720px;")
+      | Orquestá lanzamientos, festivales y roadshows desde un hub único. Prioridades claras, equipos sincronizados y clientes informados.
+    .row
+      .card(style="background: rgba(5,2,26,0.45); border: 1px solid rgba(255,255,255,0.08);")
+        h3 Próximo hito
+        p(style="font-size: 0.95rem; color: rgba(248,250,252,0.8); margin-bottom: 12px;")
+          | Summit Innovación · 22/11 · Centro Costa Salguero
+        a.btn.btn-primary(href="/projects") Plan maestro
+      .card(style="background: rgba(5,2,26,0.45); border: 1px solid rgba(255,255,255,0.08);")
+        h3 Pipeline caliente
+        p(style="font-size: 2rem; margin: 0;") 18 clientes
+        small(style="color: rgba(248,250,252,0.65);") 5 propuestas esperando confirmación
+      .card(style="background: rgba(5,2,26,0.45); border: 1px solid rgba(255,255,255,0.08);")
+        h3 Producción
+        p(style="font-size: 2rem; margin: 0;") 42 tareas activas
+        small(style="color: rgba(248,250,252,0.65);") 8 críticos · 34 en curso
+
+  section.card
+    h2 Experiencias en curso
+    .row
+      .card(style="background: rgba(255,255,255,0.02); border: 1px solid rgba(248,250,252,0.05);")
+        h3 Lanzamientos & Branding
+        ul
+          li Gestioná proveedores audiovisuales, ambientación y catering.
+          li Coordiná ensayos de speakers y reveals de producto.
+          li Automatizá recordatorios para invitados VIP.
+        a.btn.btn-secondary(href="/tasks") Ver backlog
+      .card(style="background: rgba(255,255,255,0.02); border: 1px solid rgba(248,250,252,0.05);")
+        h3 Festivales & Música
+        ul
+          li Asigná cuadrillas por escenario o franja horaria.
+          li Controlá contratos, riders técnicos y logística.
+          li Vinculá sponsors con activaciones onsite.
+        a.btn.btn-secondary(href="/clients") Lista de clientes
+
+  section.card
+    h2 Próximos checkpoints
+    .row
+      -
+        const checkpoints = [
+          {title: 'Kick-off Evento Retail', date: '18 NOV · 10:00', detail: 'Briefing con cliente y moodboard inicial'},
+          {title: 'Confirmación vendors Expo Tech', date: '20 NOV · 14:00', detail: 'Definir logística de montaje y pruebas luces'},
+          {title: 'Run-through Gala Fin de Año', date: '25 NOV · 18:00', detail: 'Ensayo general con presentadores y orquesta'}
+        ];
+      each item in checkpoints
+        .card(style="background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25); color: #0f172a;")
+          span.pill #{item.date}
+          h3 #{item.title}
+          p #{item.detail}
+          a.btn.btn-secondary(href="/tasks") Ver detalles
+

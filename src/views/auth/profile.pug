@@ -1,0 +1,29 @@
+extends ../layout.pug
+
+block content
+  .card
+    h2 Mi Perfil
+    .row
+      .card(style="width: 100%;")
+        p
+          strong Nombre:
+          |  #{user.name}
+        p
+          strong Email:
+          |  #{user.email}
+        if user.role
+          p
+            strong Rol:
+            |  #{user.role}
+        if user.departmentId
+          p
+            strong Departamento:
+            |  #{user.departmentId.name || user.departmentId}
+        p
+          strong Fecha de registro:
+          |  #{new Date(user.createdAt).toLocaleDateString('es-AR')}
+    .row
+      .card
+        a(href="/auth/logout")
+          button(style="background: #dc2626;") Cerrar Sesión
+

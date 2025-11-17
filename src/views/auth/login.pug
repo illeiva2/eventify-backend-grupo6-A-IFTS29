@@ -1,0 +1,19 @@
+extends ../layout-auth.pug
+
+block content
+  h2(style="margin-top: 0; margin-bottom: 16px;") Iniciar Sesión
+  if error
+    .alert= error
+  form(method="POST", action="/auth/login")
+    .row
+      div
+        label Email
+        input(type="email", name="email", required, placeholder="tu@email.com")
+      div
+        label Contraseña
+        input(type="password", name="password", required, placeholder="••••••••")
+    button(type="submit") Ingresar
+  .link
+    | ¿No tenés cuenta? 
+    a(href="/auth/register") Registrate acá
+

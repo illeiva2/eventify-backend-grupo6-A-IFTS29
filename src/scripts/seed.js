@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { ObjectId } from 'mongodb';
 import connectDB, { closeDB } from '../config/db.js';
+import User from '../models/User.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,19 +58,23 @@ async function main() {
     if (deptDocs.length) await db.collection('departments').insertMany(deptDocs);
     console.log(`Inserted ${deptDocs.length} departments`);
 
-    // Users (ahr)
-    const userDocs = usersData.map(u => {
+    // Users - Usar modelo para hashear passwords correctamente
+    for (const u of usersData) {
       const _id = new ObjectId();
       mapUser.set(u.id, _id);
-      return {
+      // Password por defecto: email sin @eventify.com
+      const defaultPassword = u.email.split('@')[0] || 'password123';
+      const user = new User({
         _id,
         name: u.name,
         email: u.email,
+        password: u.password || defaultPassword, // Usar password del JSON o default
+        role: u.role,
         departmentId: u.departmentId ? mapDept.get(u.departmentId) : undefined
-      };
-    });
-    if (userDocs.length) await db.collection('users').insertMany(userDocs);
-    console.log(`Inserted ${userDocs.length} users`);
+      });
+      await user.save(); // Esto hará que se hashee el password
+    }
+    console.log(`Inserted ${usersData.length} users`);
 
     // Products (ahr)
     const productDocs = productsData.map(p => {

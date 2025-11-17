@@ -1,16 +1,21 @@
 extends ./layout.pug
 
 block content
-  .card
-    h2 Bienvenido/a 👋
-    p Esta app demo muestra:
-    ul
-      li CRUD de tareas por áreas (compras, ventas, producción, logística).
-      li Alta de cliente → elección de producto → creación de proyecto.
-      li Rutas dinámicas, middleware, POO, Pug y base de datos JSON.
-    p
-      | Empezá por 
-      a(href="/clients/new") dar de alta un cliente
-      |  o 
-      a(href="/tasks") gestionar tareas
-      | .
+  section.card(style="background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 55%, #9333ea 120%); color: white;")
+    h2(style="margin-bottom: 8px; font-size: 2rem;") Bienvenido a Eventify 👋
+    p(style="margin-bottom: 20px; max-width: 680px;")
+      | Centralizá las tareas de cada área, controlá proyectos activos y hacé seguimiento de clientes desde un solo lugar.
+    .row
+      .card(style="background: rgba(15,23,42,0.18); border: 1px solid rgba(255,255,255,0.18);")
+        h3(style="margin-top: 0; color: #fef9c3;") Priorizá tu trabajo diario
+        p Gestioná el backlog de cada equipo y actualizá estados en segundos.
+        a.btn.btn-primary(href="/tasks" style="background:#facc15; color:#0f172a;") Ir a tareas
+      .card(style="background: rgba(15,23,42,0.18); border: 1px solid rgba(255,255,255,0.18);")
+        h3(style="margin-top: 0; color: #e0e7ff;") Nuevos clientes
+        p Cargá datos y conectalos con productos o proyectos futuros.
+        a.btn.btn-secondary(href="/clients/new" style="border-color:#fff; color:#fff;") Alta de cliente
+      .card(style="background: rgba(15,23,42,0.18); border: 1px solid rgba(255,255,255,0.18);")
+        h3(style="margin-top: 0; color: #fde68a;") Seguimiento de proyectos
+        p Monitoreá entregables, responsables y dependencias entre áreas.
+        a.btn.btn-secondary(href="/projects" style="border-color:#fff; color:#fff;") Ver proyectos
+

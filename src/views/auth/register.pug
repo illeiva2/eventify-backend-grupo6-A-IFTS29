@@ -1,0 +1,25 @@
+extends ../layout-auth.pug
+
+block content
+  h2(style="margin-top: 0; margin-bottom: 16px;") Crear cuenta
+  if error
+    .alert= error
+  form(method="POST", action="/auth/register")
+    .row
+      div
+        label Nombre
+        input(type="text", name="name", required, placeholder="Tu nombre completo")
+      div
+        label Email
+        input(type="email", name="email", required, placeholder="tu@email.com")
+      div
+        label Contraseña
+        input(type="password", name="password", required, placeholder="••••••••")
+      div
+        label Confirmar contraseña
+        input(type="password", name="confirmPassword", required, placeholder="Repetí la contraseña")
+    button(type="submit") Registrarme
+  .link
+    | ¿Ya tenés cuenta? 
+    a(href="/auth/login") Iniciá sesión
+

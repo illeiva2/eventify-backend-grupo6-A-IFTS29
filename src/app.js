@@ -1,15 +1,18 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import logger from './middleware/logger.js';
 import notFound from './middleware/notFound.js';
 import errorHandler from './middleware/errorHandler.js';
+import { authenticate } from './middleware/auth.js';
 import indexRouter from './routes/index.js';
 import tasksRouter from './routes/tasks.js';
 import clientsRouter from './routes/clients.js';
 import productsRouter from './routes/products.js';
 import projectsRouter from './routes/projects.js';
 import departmentsRouter from './routes/departments.js';
+import authRouter from './routes/auth.js';
 import connectDB from './config/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,12 +27,19 @@ app.set('view engine', 'pug');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // middleware
 app.use(logger);
 
-// Routers
+// Auth routes (públicas)
+app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
+
+// Rutas protegidas (requieren usuario autenticado)
+app.use(authenticate);
+
 app.use('/', indexRouter);
 app.use('/tasks', tasksRouter);
 app.use('/clients', clientsRouter);

@@ -1,8 +1,42 @@
 extends ../layout.pug
 
 block content
-  h2 Áreas
-  ul
-    each d in departments
-      li
-        a(href=`/departments/${d.id}/tasks`)= d.name
+  .card(style="margin-bottom: 24px;")
+    h2(style="margin: 0 0 8px;") Áreas de Producción
+    p(style="margin: 0; opacity: 0.7;") Organizá el trabajo por departamentos y equipos especializados
+
+  if departments.length
+    .row
+      each dept in departments
+        .card(style="background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(139,92,246,0.08)); border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';")
+          div(style="position: absolute; top: -30px; right: -30px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(56,189,248,0.15), transparent 70%); border-radius: 50%; pointer-events: none;")
+          div(style="position: relative; z-index: 1;")
+            div(style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;")
+              div(style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #38bdf8, #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 1.8rem;")
+                -
+                  const icons = {
+                    'ventas': '💼',
+                    'sales': '💼',
+                    'producción': '🎬',
+                    'production': '🎬',
+                    'logística': '🚚',
+                    'logistics': '🚚',
+                    'compras': '🛒',
+                    'purchasing': '🛒',
+                    'admin': '⚙️',
+                    'administración': '⚙️'
+                  };
+                  const deptName = (dept.name || dept.slug || '').toLowerCase();
+                  const icon = icons[deptName] || '📋';
+                = icon
+              div(style="flex: 1;")
+                h3(style="margin: 0; font-size: 1.3rem; color: var(--accent-2);")= dept.name
+                if dept.slug
+                  span.pill(style="margin-top: 6px; display: inline-block;")= dept.slug
+            div(style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);")
+              a.btn.btn-secondary(href=`/departments/${dept.id}/tasks` style="width: 100%; text-align: center; padding: 10px 16px;") Ver tareas del área
+  else
+    .card(style="text-align: center; padding: 48px 24px;")
+      div(style="font-size: 3rem; margin-bottom: 16px; opacity: 0.5;") 🏢
+      h3(style="margin: 0 0 8px;") No hay áreas configuradas
+      p(style="margin: 0; opacity: 0.7;") Las áreas se configuran desde el seed o la base de datos

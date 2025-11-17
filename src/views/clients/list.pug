@@ -1,10 +1,33 @@
 extends ../layout.pug
 
 block content
-  h2 Clientes
+  .card(style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;")
+    div
+      h2(style="margin: 0;") Clientes
+      p(style="margin: 8px 0 0; opacity: 0.7;") Gestioná tus contactos y relaciones comerciales
+    a.btn.btn-primary(href="/clients/new") + Nuevo Cliente
+
   if clients.length
-    ul
-      each c in clients
-        li= c.name + ' (' + c.email + ')'
+    .row
+      each client in clients
+        .card(style="background: linear-gradient(135deg, rgba(244,114,182,0.12), rgba(56,189,248,0.08)); border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden;")
+          div(style="position: absolute; top: -20px; right: -20px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(244,114,182,0.2), transparent 70%); border-radius: 50%; pointer-events: none;")
+          div(style="position: relative; z-index: 1;")
+            div(style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;")
+              div(style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #f472b6, #38bdf8); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #fff;")
+                = client.name.charAt(0).toUpperCase()
+              div
+                h3(style="margin: 0; font-size: 1.2rem;")= client.name
+                p(style="margin: 4px 0 0; opacity: 0.7; font-size: 0.9rem;")= client.email
+            if client.phone
+              div(style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);")
+                span(style="opacity: 0.7; font-size: 0.9rem;") 📞 
+                span(style="opacity: 0.9;")= client.phone
+            div(style="margin-top: 16px; display: flex; gap: 8px;")
+              a.btn.btn-secondary(href=`/products?clientId=${client._id}` style="flex: 1; text-align: center; padding: 8px 12px; font-size: 0.9rem;") Ver productos
   else
-    p (Sin clientes)
+    .card(style="text-align: center; padding: 48px 24px;")
+      div(style="font-size: 3rem; margin-bottom: 16px; opacity: 0.5;") 👥
+      h3(style="margin: 0 0 8px;") No hay clientes registrados
+      p(style="margin: 0; opacity: 0.7;") Comenzá agregando tu primer cliente
+      a.btn.btn-primary(href="/clients/new" style="margin-top: 20px; display: inline-block;") Agregar primer cliente

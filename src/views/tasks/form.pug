@@ -37,7 +37,8 @@ block content
       .row
         .card
           label Fecha límite
-          input(type="date", name="dueDate", value=(task && task.dueDate ? task.dueDate.slice(0,10) : ''))
+          - const dueDateValue = (task && task.dueDate) ? (typeof task.dueDate === 'string' ? task.dueDate.slice(0,10) : (task.dueDate.toISOString ? task.dueDate.toISOString().slice(0,10) : '')) : ''
+          input(type="date", name="dueDate", value=dueDateValue)
         .card
           label Estado
           select(name="status")
@@ -48,9 +49,12 @@ block content
               else
                 option(value=s)= s
       .row
-        button(type="submit") Guardar
-    form(method="POST", action=`/tasks/${task.id}/delete`, style="display:inline;margin-left:8px")
-      button(type="submit") Eliminar
+        .card
+          form(method="POST", action=`/tasks/${task.id}`)
+            button(type="submit", style="width:100%") Guardar
+        .card
+          form(method="POST", action=`/tasks/${task.id}/delete`)
+            button(type="submit", style="width:100%; background:#dc2626; border:0") Eliminar
   else
     h2 Nueva tarea
     form(method="POST", action="/tasks")

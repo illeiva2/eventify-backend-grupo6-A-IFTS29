@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import methodOverride from 'method-override';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import logger from './middleware/logger.js';
@@ -20,6 +21,28 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+
+app.disable('x-powered-by');
+app.use(helmet());
+
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 20, 
+  message: { success: false, message: 'Too many auth attempts, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(limiter);
 
 
 app.set('views', path.join(__dirname, 'views'));

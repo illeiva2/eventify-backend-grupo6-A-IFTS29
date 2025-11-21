@@ -16,6 +16,9 @@ Sistema completo de gestión para empresas de producción de eventos. Permite or
 - **Protección de Rutas**: Middleware de autenticación para rutas protegidas
 - **Hash de Contraseñas**: Encriptación automática con bcrypt
 - **Gestión de Sesiones**: Cookies httpOnly para sesiones web
+- **Helmet**: Se añadió la dependencia `helmet` y se activó con `app.use(helmet())` en `src/app.js`. Helmet aplica un conjunto de cabeceras HTTP seguras.
+- **Ocultar `X-Powered-By`**: Se deshabilitó la cabecera `X-Powered-By` con `app.disable('x-powered-by')` para evitar filtrar información del servidor.
+- **Limitador de peticiones**: Se agregó `express-rate-limit` y se configuró un limitador global (`limiter`) y un limitador específico para autenticación (`authLimiter`) en `src/app.js` (p.ej. 200 req/15min global, 20 req/15min para endpoints de auth). Esto ayuda a mitigar abusos y ataques de fuerza bruta.
 
 ### Interfaz de Usuario
 - **Diseño Moderno**: UI/UX enfocada en la temática de eventos con gradientes y efectos visuales
@@ -219,15 +222,6 @@ El middleware:
 - **Responsive**: Diseño adaptable a móviles y tablets
 - **Tipografía**: Space Grotesk para un look moderno y legible
 
-## 📝 Notas Importantes
-
-- **Base de Datos**: El proyecto usa MongoDB mediante Mongoose para persistencia de datos
-- **Seguridad**: Las contraseñas se hashean automáticamente usando bcrypt antes de guardarse
-- **Tokens JWT**: Expiran en 7 días por defecto
-- **Producción**: Asegúrate de cambiar `JWT_SECRET` en producción por una clave segura y aleatoria
-- **Seed Data**: Los datos iniciales se cargan desde `src/data/*.json` usando el script de seed
-- **Autenticación Global**: Todas las rutas principales están protegidas por defecto (excepto `/auth/*`)
-
 ## 🛠️ Scripts Disponibles
 
 - `npm start` - Inicia el servidor en modo producción
@@ -235,6 +229,7 @@ El middleware:
 - `npm run seed` - Pobla la base de datos con datos iniciales
 - `npm run lint` - Ejecuta el linter (configurar según necesidad)
 
+<<<<<<< HEAD
 ## 👥 Usuarios de Prueba
 
 Después de ejecutar `npm run seed`, puedes usar estos usuarios (la contraseña es el nombre del email sin el dominio):
@@ -282,6 +277,8 @@ Si usas MongoDB Atlas, la URI debería verse así:
 mongodb+srv://usuario:password@cluster.mongodb.net/Eventify?retryWrites=true&w=majority
 ```
 
+=======
+>>>>>>> 3180641467b1f15a9b1851ed06bbba77cb85fc35
 ## 📄 Licencia
 
 Este proyecto es parte de un trabajo académico del grupo 6-A de IFTS29.

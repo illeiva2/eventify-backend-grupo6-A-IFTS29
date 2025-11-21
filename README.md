@@ -222,31 +222,12 @@ El middleware:
 - **Responsive**: Diseño adaptable a móviles y tablets
 - **Tipografía**: Space Grotesk para un look moderno y legible
 
-## 📝 Notas Importantes
-
-- **Base de Datos**: El proyecto usa MongoDB mediante Mongoose para persistencia de datos
-- **Seguridad**: Las contraseñas se hashean automáticamente usando bcrypt antes de guardarse
-- **Tokens JWT**: Expiran en 7 días por defecto
-- **Producción**: Asegúrate de cambiar `JWT_SECRET` en producción por una clave segura y aleatoria
-- **Seed Data**: Los datos iniciales se cargan desde `src/data/*.json` usando el script de seed
-- **Autenticación Global**: Todas las rutas principales están protegidas por defecto (excepto `/auth/*`)
-
 ## 🛠️ Scripts Disponibles
 
 - `npm start` - Inicia el servidor en modo producción
 - `npm run dev` - Inicia el servidor en modo desarrollo con auto-reload
 - `npm run seed` - Pobla la base de datos con datos iniciales
 - `npm run lint` - Ejecuta el linter (configurar según necesidad)
-
-## 👥 Usuarios de Prueba
-
-Después de ejecutar `npm run seed`, puedes usar estos usuarios (la contraseña es el nombre del email sin el dominio):
-
-- `romina@eventify.com` / `romina`
-- `matias@eventify.com` / `matias`
-- `laura@eventify.com` / `laura`
-- `ivan@eventify.com` / `ivan`
-- `ignacio@eventify.com` / `ignacio`
 
 ## 📄 Licencia
 

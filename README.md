@@ -229,7 +229,6 @@ El middleware:
 - `npm run seed` - Pobla la base de datos con datos iniciales
 - `npm run lint` - Ejecuta el linter (configurar según necesidad)
 
-<<<<<<< HEAD
 ## 👥 Usuarios de Prueba
 
 Después de ejecutar `npm run seed`, puedes usar estos usuarios (la contraseña es el nombre del email sin el dominio):
@@ -277,8 +276,6 @@ Si usas MongoDB Atlas, la URI debería verse así:
 mongodb+srv://usuario:password@cluster.mongodb.net/Eventify?retryWrites=true&w=majority
 ```
 
-=======
->>>>>>> 3180641467b1f15a9b1851ed06bbba77cb85fc35
 ## 📄 Licencia
 
 Este proyecto es parte de un trabajo académico del grupo 6-A de IFTS29.

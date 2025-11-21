@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import logger from './middleware/logger.js';
@@ -19,6 +20,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Security: remove identifying header and enable Helmet for secure headers
+app.disable('x-powered-by');
+app.use(helmet());
 
 
 app.set('views', path.join(__dirname, 'views'));

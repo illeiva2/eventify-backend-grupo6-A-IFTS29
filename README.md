@@ -16,6 +16,9 @@ Sistema completo de gestión para empresas de producción de eventos. Permite or
 - **Protección de Rutas**: Middleware de autenticación para rutas protegidas
 - **Hash de Contraseñas**: Encriptación automática con bcrypt
 - **Gestión de Sesiones**: Cookies httpOnly para sesiones web
+- **Helmet**: Se añadió la dependencia `helmet` y se activó con `app.use(helmet())` en `src/app.js`. Helmet aplica un conjunto de cabeceras HTTP seguras.
+- **Ocultar `X-Powered-By`**: Se deshabilitó la cabecera `X-Powered-By` con `app.disable('x-powered-by')` para evitar filtrar información del servidor.
+- **Limitador de peticiones**: Se agregó `express-rate-limit` y se configuró un limitador global (`limiter`) y un limitador específico para autenticación (`authLimiter`) en `src/app.js` (p.ej. 200 req/15min global, 20 req/15min para endpoints de auth). Esto ayuda a mitigar abusos y ataques de fuerza bruta.
 
 ### Interfaz de Usuario
 - **Diseño Moderno**: UI/UX enfocada en la temática de eventos con gradientes y efectos visuales

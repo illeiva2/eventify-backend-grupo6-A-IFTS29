@@ -37,7 +37,8 @@ block content
       .row
         .card
           label Fecha límite
-          input(type="date", name="dueDate", value=(task && task.dueDate ? task.dueDate.slice(0,10) : ''))
+          - const dueDateValue = (task && task.dueDate) ? (typeof task.dueDate === 'string' ? task.dueDate.slice(0,10) : (task.dueDate.toISOString ? task.dueDate.toISOString().slice(0,10) : '')) : ''
+          input(type="date", name="dueDate", value=dueDateValue)
         .card
           label Estado
           select(name="status")

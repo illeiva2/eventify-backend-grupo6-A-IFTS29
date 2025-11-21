@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import methodOverride from 'method-override';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import logger from './middleware/logger.js';
@@ -27,6 +28,7 @@ app.set('view engine', 'pug');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

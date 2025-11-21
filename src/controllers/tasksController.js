@@ -9,7 +9,12 @@ async function resolve(Model, id) {
   if (isValidObjectId(id)) {
     return await Model.findById(id).exec();
   }
-  return null;
+  const query = [];
+  query.push({ slug: id });
+  query.push({ name: id });
+  query.push({ email: id });
+  const found = await Model.findOne({ $or: query }).exec();
+  return found || null;
 }
 
 export async function list(req, res) {
